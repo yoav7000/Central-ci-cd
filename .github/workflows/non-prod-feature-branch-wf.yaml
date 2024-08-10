@@ -38,6 +38,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{inputs.app_name}}:${{ github.sha }}
   test:
+    runs-on: self-hosted
     steps:
       - name: check!!!
         run: echo "hello"
