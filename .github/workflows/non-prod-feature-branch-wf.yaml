@@ -22,6 +22,7 @@ jobs:
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   harta:
     runs-on: self-hosted
+    needs: build
     steps:
       - name: harta
         run: echo ${{ needs.build.outputs.image_name }}
