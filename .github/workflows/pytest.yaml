@@ -1,0 +1,26 @@
+name: pytest tests workflow
+
+on:
+   workflow_call:
+    inputs:
+      docker_image:
+        required: true
+        type: string
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_PASSWORD:
+        required: true
+
+
+jobs:
+  test:
+    runs-on: self-hosted
+    container:
+      image: docker_image
+      credentials:
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_USERNAME }}
+    steps:      
+      - name: run pytest tests
+        run: pytest .

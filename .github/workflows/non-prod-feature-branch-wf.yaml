@@ -11,36 +11,20 @@ on:
         required: true
       DOCKERHUB_PASSWORD:
         required: true
-  # pull_request:
-  #   branches:
-  #     - main
 
 jobs:
   build:
-    runs-on: self-hosted
-    environment: production
-    steps:      
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{inputs.app_name}}:${{ github.sha }}
+    uses: /.github/workflows/build.yaml
+    with:
+      app_name: ${{inputs.app_name}}
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   test:
-    runs-on: self-hosted
     needs: build
-    steps:
-      - name: check!!!
-        run: echo "hello"
-      
+    uses: /.github/workflows/pytest.yaml
+    with: 
+      image_name: ${{ needs.build.outputs.image_name }}
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
