@@ -23,8 +23,8 @@ jobs:
   harta:
     runs-on: self-hosted
     steps:
-      name: harta
-      run: echo ${{ needs.build.outputs.image_name }}
+      - name: harta
+        run: echo ${{ needs.build.outputs.image_name }}
   test:
     needs: build
     uses: ./.github/workflows/pytest.yaml
