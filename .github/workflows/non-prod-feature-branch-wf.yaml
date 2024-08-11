@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    uses: /.github/workflows/build.yaml
+    uses: ./.github/workflows/build.yaml
     with:
       app_name: ${{inputs.app_name}}
     secrets:
@@ -22,7 +22,7 @@ jobs:
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
   test:
     needs: build
-    uses: /.github/workflows/pytest.yaml
+    uses: ./.github/workflows/pytest.yaml
     with: 
       image_name: ${{ needs.build.outputs.image_name }}
     secrets:
