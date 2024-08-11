@@ -25,12 +25,12 @@ jobs:
     needs: build
     steps:
       - name: harta
-        run: echo ${{ needs.build.outputs.image_name }}
+        run: echo "${{ needs.build.outputs.image_name }}"
   test:
     needs: build
     uses: ./.github/workflows/pytest.yaml
     with: 
-      image_name: ${{ needs.build.outputs.image_name }}
+      image_name: "${{ needs.build.outputs.image_name }}"
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
