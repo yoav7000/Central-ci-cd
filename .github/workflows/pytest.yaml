@@ -17,7 +17,7 @@ jobs:
   test:
     runs-on: self-hosted
     container:
-      image: image_name
+      image: ${{inputs.app_name}}
       credentials:
          username: ${{ secrets.DOCKERHUB_USERNAME }}
          password: ${{ secrets.DOCKERHUB_PASSWORD }}
