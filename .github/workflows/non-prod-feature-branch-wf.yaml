@@ -20,6 +20,11 @@ jobs:
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  harta:
+    runs-on: self-hosted
+    steps:
+      name: harta
+      run: echo ${{ needs.build.outputs.image_name }}
   test:
     needs: build
     uses: ./.github/workflows/pytest.yaml
