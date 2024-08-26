@@ -16,13 +16,11 @@ on:
 
 env:
   IMAGE_NAME: "${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.app_name }}:${{ github.sha }}"
-
+  
 jobs:
   build:
     runs-on: self-hosted
     steps:
-    - name: delete later
-      run: echo ${{env.IMAGE_NAME}}
     - name: Checkout code
       uses: actions/checkout@v4
     
