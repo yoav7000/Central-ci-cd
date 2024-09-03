@@ -6,7 +6,7 @@ on:
       app_name:
         required: true
         type: string
-      values_path:
+      gitops_values_path:
         required: true
         type: string
     secrets:
@@ -85,13 +85,13 @@ jobs:
 
     - name: Change value in YAML file
       run: |
-        yq e '.image.tag = "${{ github.sha }}"' -i ${{ inputs.values_path }}
+        yq e '.image.tag = "${{ github.sha }}"' -i ${{ inputs.gitops_values_path }}
 
     - name: Commit changes to gitops repo
       run: |
         git status
         git config --local user.name "GitHub Actions"
         git config --local user.email "actions@github.com"
-        git add ${{ inputs.values_path }}
-        git commit -m "Update ${{ inputs.app_name }} tag in path ${{ inputs.values_path }} values file to ${{ github.sha }}"
+        git add ${{ inputs.gitops_values_path }}
+        git commit -m "Update ${{ inputs.app_name }} tag in path ${{ inputs.gitops_values_path }} values file to ${{ github.sha }}"
         git push
