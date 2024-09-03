@@ -89,6 +89,6 @@ jobs:
         git status
         git config --local user.name "GitHub Actions"
         git config --local user.email "actions@github.com"
-        git add environments/dev/values/${{inputs.app_name}}-values.yaml
+        git add environments/dev/values/microservice-devops-values.yaml
         git commit -m "Update tag in values file"
         git push
