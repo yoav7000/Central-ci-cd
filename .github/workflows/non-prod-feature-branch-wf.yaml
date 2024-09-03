@@ -73,6 +73,7 @@ jobs:
     needs: scan
     container:
       image: dellnoantechnp/git-yq:latest
+      options: --user root
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
