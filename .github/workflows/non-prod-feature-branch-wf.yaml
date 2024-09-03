@@ -71,7 +71,7 @@ jobs:
       image: dellnoantechnp/git-yq:latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
       with:
         repository: yoav7000/gitops-devops-project
         token: ${{ secrets.GITOPS_REPO_TOKEN }}
