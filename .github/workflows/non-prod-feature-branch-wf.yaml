@@ -70,6 +70,7 @@ jobs:
 
   deploy_dev:
     runs-on: self-hosted
+    needs: scan
     container:
       image: dellnoantechnp/git-yq:latest
     steps:
