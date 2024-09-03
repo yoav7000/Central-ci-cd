@@ -71,11 +71,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        repository: "yoav7000/gitops-devops-project"
+        repository: yoav7000/gitops-devops-project
         token: ${{ secrets.GITOPS_REPO_TOKEN }}
+
     - name: Change value in YAML file
       run: |
         yq e '.image.tag = "cba1df93eb833a5cf5721320d68fd1839dfc79ea"' -i environments/dev/values/microservice-devops-values.yaml
+
     - name: Commit changes
       run: |
         git status
