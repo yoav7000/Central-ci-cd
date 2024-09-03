@@ -67,6 +67,8 @@ jobs:
 
   deploy_dev:
     runs-on: self-hosted
+    container:
+      image: dellnoantechnp/git-yq:latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
