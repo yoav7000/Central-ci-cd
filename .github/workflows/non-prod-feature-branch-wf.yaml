@@ -6,6 +6,9 @@ on:
       app_name:
         required: true
         type: string
+      gitops_repo:
+        required: true
+        type: string
       gitops_values_path:
         required: true
         type: string
@@ -40,7 +43,7 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         push: true
-        tags: ${{env.IMAGE_NAME}}
+        tags: ${{ env.IMAGE_NAME }}
 
   test:
     runs-on: self-hosted
@@ -75,7 +78,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        repository: yoav7000/gitops-devops-project
+        repository: ${{ inputs.gitops_repo }}
         token: ${{ secrets.GITOPS_REPO_TOKEN }}
 
     - name: Change value in YAML file
