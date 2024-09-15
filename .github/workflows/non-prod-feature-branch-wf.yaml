@@ -76,7 +76,7 @@ jobs:
     env:
       ENV_NAME: dev
 
-    environment: ${{ env.ENV_NAME }}
+    environment: $ENV_NAME
     needs: scan
     steps:
     - name: Checkout code
@@ -103,7 +103,7 @@ jobs:
     runs-on: self-hosted
     env:
       ENV_NAME: dev
-      
+
     environment: staging
     needs: deploy_dev
     steps:
