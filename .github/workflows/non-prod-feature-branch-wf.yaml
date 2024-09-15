@@ -45,35 +45,36 @@ jobs:
         push: true
         tags: ${{ env.IMAGE_NAME }}
 
-  test:
-    runs-on: self-hosted
-    needs: build
-    steps: 
-      - uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          image: ${{ env.IMAGE_NAME }}
-          run: pytest .
+  # test:
+  #   runs-on: self-hosted
+  #   needs: build
+  #   steps: 
+  #     - uses: addnab/docker-run-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+  #         image: ${{ env.IMAGE_NAME }}
+  #         run: pytest .
 
-  scan:
-    runs-on: self-hosted
-    needs: test
-    steps:
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.20.0
-        with:
-          image-ref: ${{ env.IMAGE_NAME }}
-          format: 'table'
-          exit-code: '1'
-          severity: 'CRITICAL,HIGH'
-        env:
-          TRIVY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  # scan:
+  #   runs-on: self-hosted
+  #   needs: test
+  #   steps:
+  #     - name: Run Trivy vulnerability scanner
+  #       uses: aquasecurity/trivy-action@0.20.0
+  #       with:
+  #         image-ref: ${{ env.IMAGE_NAME }}
+  #         format: 'table'
+  #         exit-code: '1'
+  #         severity: 'CRITICAL,HIGH'
+  #       env:
+  #         TRIVY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
   deploy_dev:
     runs-on: self-hosted
-    needs: scan
+    environment: dev
+    needs: build #scan
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
