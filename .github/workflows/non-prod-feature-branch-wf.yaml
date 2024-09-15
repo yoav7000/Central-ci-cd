@@ -90,7 +90,7 @@ jobs:
     - name: Commit changes to gitops repo
       run: |
         git status
-        git config --local user.name "GitHub Actions"
+        git config --local user.name "yoav7000"
         git config --local user.email "actions@github.com"
         git add ${{ inputs.gitops_values_path }}
         git commit -m "Update dev ${{ inputs.app_name }} image tag to ${{ github.sha }}"
