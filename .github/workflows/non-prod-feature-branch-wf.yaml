@@ -65,8 +65,8 @@ jobs:
         with:
           image-ref: ${{ env.IMAGE_NAME }}
           format: 'table'
-          # exit-code: '1'
-          severity: 'CRITICAL,HIGH,MEDIUM'
+          exit-code: '1'
+          severity: 'CRITICAL, HIGH'
         env:
           TRIVY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           TRIVY_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
