@@ -76,7 +76,7 @@ jobs:
     env:
       ENV_NAME: dev
 
-    environment: $ENV_NAME
+    environment: ${{ env.ENV_NAME }}
     needs: scan
     steps:
     - name: Checkout code
