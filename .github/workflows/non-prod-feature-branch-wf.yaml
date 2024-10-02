@@ -84,6 +84,7 @@ jobs:
     
     - name: env
       run: |
+        echo ${{ job.environment.name }}
         env
 
     - name: Change value in YAML file
