@@ -89,14 +89,14 @@ jobs:
     - name: Change value in YAML file
       uses: mikefarah/yq@v4.44.3
       with:
-        cmd: yq e '.image.tag = "${{ github.sha }}"' -i ${{ env.VALUES_PATH }}
+        cmd: yq e '.image.tag = "${{ github.sha }}"' -i $VALUES_PATH
 
     - name: Commit changes to gitops repo
       run: |
         git status
         git config --local user.name "yoav7000"
         git config --local user.email "actions@github.com"
-        git add ${{ env.VALUES_PATH }}
+        git add $VALUES_PATH
         git commit -m "Update dev ${{ inputs.app_name }} image tag to ${{ github.sha }}"
         git push
 
