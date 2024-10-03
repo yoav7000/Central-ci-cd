@@ -84,8 +84,7 @@ jobs:
     
     - name: env
       run: |
-        echo ${{ job.environment.name }}
-        env
+        echo ${{ vars.ENV_NAME }}
 
     - name: Change value in YAML file
       uses: mikefarah/yq@v4.44.3
