@@ -76,7 +76,7 @@ jobs:
     environment: dev
     needs: build #scan
     env:
-      VALUES_PATH: echo ${{ inputs.gitops_values_path }} | sed 's/{env_name}/dev/'
+      VALUES_PATH: echo '${{ inputs.gitops_values_path }}' | sed 's/{ENV_NAME}/dev/'
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
