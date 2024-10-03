@@ -84,7 +84,7 @@ jobs:
 
     - name: Set values file path variable based on the environment 
       run: |
-        echo "VALUES_PATH = $(echo '${{ inputs.gitops_values_path }}' | sed 's/{ENV_NAME}/dev/')" >> $GITHUB_ENV
+        echo "VALUES_PATH=$(echo '${{ inputs.gitops_values_path }}' | sed 's/{ENV_NAME}/dev/')" >> $GITHUB_ENV
 
     - name: Change value in YAML file
       uses: mikefarah/yq@v4.44.3
