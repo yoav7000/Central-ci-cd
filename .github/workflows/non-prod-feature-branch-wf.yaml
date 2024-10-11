@@ -21,7 +21,7 @@ on:
         required: true
 
 env:
-  IMAGE_NAME: "${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.app_name }}:${{ github.sha }}"
+  IMAGE_NAME: "${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.app_name }}:${{ github.event.pull_request.head.sha }}"
   
 jobs:
   build:
@@ -89,7 +89,7 @@ jobs:
     - name: Change value in YAML file
       uses: mikefarah/yq@v4.44.3
       with:
-        cmd: yq e '.image.tag = "${{ github.sha }}"' -i $VALUES_PATH
+        cmd: yq e '.image.tag = "${{ github.event.pull_request.head.sha }}"' -i $VALUES_PATH
 
     - name: Commit changes to gitops repo
       run: |
@@ -97,7 +97,7 @@ jobs:
         git config --local user.name "Github Actions"
         git config --local user.email "actions@github.com"
         git add $VALUES_PATH
-        git commit -m "Update dev ${{ inputs.app_name }} image tag to ${{ github.sha }}"
+        git commit -m "Update dev ${{ inputs.app_name }} image tag to ${{ github.event.pull_request.head.sha }}"
         git push
 
   deploy_staging:
@@ -118,7 +118,7 @@ jobs:
       - name: Change value in YAML file
         uses: mikefarah/yq@v4.44.3
         with:
-          cmd: yq e '.image.tag = "${{ github.sha }}"' -i $VALUES_PATH
+          cmd: yq e '.image.tag = "${{ github.event.pull_request.head.sha }}"' -i $VALUES_PATH
   
       - name: Commit changes to gitops repo
         run: |
@@ -126,5 +126,5 @@ jobs:
           git config --local user.name "Github Actions"
           git config --local user.email "actions@github.com"
           git add $VALUES_PATH
-          git commit -m "Update staging ${{ inputs.app_name }} image tag to ${{ github.sha }}"
+          git commit -m "Update staging ${{ inputs.app_name }} image tag to ${{ github.event.pull_request.head.sha }}"
           git push
