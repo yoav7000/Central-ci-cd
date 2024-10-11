@@ -1,4 +1,4 @@
-name: production pipeline
+name: Production CI/CD pipeline
 
 on:
    workflow_call:

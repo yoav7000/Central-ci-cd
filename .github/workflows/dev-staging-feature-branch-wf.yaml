@@ -1,4 +1,4 @@
-name: Non production environments pipeline
+name: Dev and Staging environments CI/CD pipeline
 
 on:
    workflow_call:
