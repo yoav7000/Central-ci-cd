@@ -54,7 +54,7 @@ jobs:
   dev-staging-workflow:
     uses: yoav7000/Central-ci-cd/.github/workflows/dev-staging-feature-branch-wf.yaml@main
     with:
-      app_name: devops-project
+      app_name: backend-microservice
       gitops_values_path: environments/{ENV_NAME}/values/backend-microservice-values.yaml
       gitops_repo: ${{ vars.GITOPS_REPO }}
     secrets:
@@ -81,7 +81,7 @@ jobs:
   prod-workflow:
     uses: yoav7000/Central-ci-cd/.github/workflows/prod-wf.yaml@main
     with:
-      app_name: devops-project
+      app_name: backend-microservice
       gitops_values_path: environments/{ENV_NAME}/values/backend-microservice-values.yaml
       gitops_repo: ${{ vars.GITOPS_REPO }}
     secrets:
