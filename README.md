@@ -2,8 +2,6 @@
 # Central GitHub Actions Reusable Workflows
 ![ci-cd-wf](https://miro.medium.com/v2/resize:fit:1400/1*jJTE__BrpO2H6fmWf5VSDQ.png)
 
-![Screenshot 2024-10-16 002037](https://github.com/user-attachments/assets/dabf2510-508a-474c-806e-9676c436caa1)
-
 This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. The deployment process interacts with the defined GitOps repository, updating the image tag in the application values file to the newly created image tag during the deployment. Deployment jobs in the Workflow are controlled using GitHub Action environments, allowing for fine-grained control and approval processes.
 
 It contains two main workflows:
@@ -14,6 +12,7 @@ It contains two main workflows:
      - **Run tests** to validate the application.
      - **Trivy security scan** for vulnerabilities.
      - Deploys to **dev** and **staging** environments (using GitHub Action environments) after manual approval.
+- ![Screenshot 2024-10-16 002037](https://github.com/user-attachments/assets/dabf2510-508a-474c-806e-9676c436caa1)
 
 2. **Production CI/CD Workflow**:
    - Runs when a Git tag is created for the `main` branch.
