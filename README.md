@@ -29,7 +29,7 @@ To use these workflows, ensure you have the following secrets and inputs defined
 - **Inputs**:
   - `app_name`: The name of the application being deployed.
   - `gitops_repo`: The name of your GitOps repository.
-  - `gitops_values_path`: Path to the values file in your GitOps repository (e.g., `environments/{ENV_NAME}/values/microservice-devops-values.yaml`).
+  - `gitops_values_path`: Path to the values file in your GitOps repository (e.g., `environments/{ENV_NAME}/values/backend-microservice-values.yaml`).
 
 The `{ENV_NAME}` placeholder in the `gitops_values_path` is a convention used to dynamically insert the actual environment name (e.g., `dev` or `staging`) based on the environment being deployed.
 ### Additional Requirements
@@ -55,7 +55,7 @@ jobs:
     uses: yoav7000/Central-ci-cd/.github/workflows/dev-staging-feature-branch-wf.yaml@main
     with:
       app_name: devops-project
-      gitops_values_path: environments/{ENV_NAME}/values/microservice-devops-values.yaml
+      gitops_values_path: environments/{ENV_NAME}/values/backend-microservice-values.yaml
       gitops_repo: ${{ vars.GITOPS_REPO }}
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -82,7 +82,7 @@ jobs:
     uses: yoav7000/Central-ci-cd/.github/workflows/prod-wf.yaml@main
     with:
       app_name: devops-project
-      gitops_values_path: environments/{ENV_NAME}/values/microservice-devops-values.yaml
+      gitops_values_path: environments/{ENV_NAME}/values/backend-microservice-values.yaml
       gitops_repo: ${{ vars.GITOPS_REPO }}
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
