@@ -4,11 +4,11 @@
 This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. It contains two main workflows:
 
 1. **Development and Staging CI/CD Workflow**:
-  - Runs on pull requests to the `main` branch.
-  1. **Build the Docker image** for the application.
-  2. **Run tests** to validate the application.
-  3. **Trivy security scan** for vulnerabilities.
-  4. Deploys to **dev** and **staging** environments after manual approval.
+    - Runs on pull requests to the `main` branch.
+    1. **Build the Docker image** for the application.
+    2. **Run tests** to validate the application.
+    3. **Trivy security scan** for vulnerabilities.
+    4. Deploys to **dev** and **staging** environments after manual approval.
 
 2. **Production CI/CD Workflow**:
    - Runs when a Git tag is created for the `main` branch.
