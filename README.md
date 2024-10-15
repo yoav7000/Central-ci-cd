@@ -1,6 +1,5 @@
 # Central-ci-cd
-
-# Central GitHub Actions Reusable Workflow
+# Central GitHub Actions Reusable Workflows
 
 This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. It contains two main workflows:
 
