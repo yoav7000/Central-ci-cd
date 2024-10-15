@@ -1,9 +1,10 @@
 
 # Central GitHub Actions Reusable Workflows
-
 This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. The deployment process interacts with the defined GitOps repository, updating the image tag in the application values file to the newly created image tag during the deployment. Deployment jobs in the Workflow are controlled using GitHub Action environments, allowing for fine-grained control and approval processes.
 
-It contains two main workflows:
+![ci-cd-wf](https://miro.medium.com/v2/resize:fit:1400/1*jJTE__BrpO2H6fmWf5VSDQ.png)
+
+This repo contains two main workflows:
 
 1. **Development and Staging CI/CD Workflow**:
    - Runs on pull requests to the `main` branch.
@@ -11,6 +12,7 @@ It contains two main workflows:
      - **Run tests** to validate the application.
      - **Trivy security scan** for vulnerabilities.
      - Deploys to **dev** and **staging** environments (using GitHub Action environments) after manual approval.
+- ![Screenshot 2024-10-16 002037](https://github.com/user-attachments/assets/dabf2510-508a-474c-806e-9676c436caa1)
 
 2. **Production CI/CD Workflow**:
    - Runs when a Git tag is created for the `main` branch.
@@ -29,7 +31,7 @@ To use these workflows, ensure you have the following secrets and inputs defined
 - **Inputs**:
   - `app_name`: The name of the application being deployed.
   - `gitops_repo`: The name of your GitOps repository.
-  - `gitops_values_path`: Path to the values file in your GitOps repository (e.g., `environments/{ENV_NAME}/values/microservice-devops-values.yaml`).
+  - `gitops_values_path`: Path to the values file in your GitOps repository (e.g., `environments/{ENV_NAME}/values/backend-microservice-values.yaml`).
 
 The `{ENV_NAME}` placeholder in the `gitops_values_path` is a convention used to dynamically insert the actual environment name (e.g., `dev` or `staging`) based on the environment being deployed.
 ### Additional Requirements
@@ -54,8 +56,8 @@ jobs:
   dev-staging-workflow:
     uses: yoav7000/Central-ci-cd/.github/workflows/dev-staging-feature-branch-wf.yaml@main
     with:
-      app_name: devops-project
-      gitops_values_path: environments/{ENV_NAME}/values/microservice-devops-values.yaml
+      app_name: backend-microservice
+      gitops_values_path: environments/{ENV_NAME}/values/backend-microservice-values.yaml
       gitops_repo: ${{ vars.GITOPS_REPO }}
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -81,8 +83,8 @@ jobs:
   prod-workflow:
     uses: yoav7000/Central-ci-cd/.github/workflows/prod-wf.yaml@main
     with:
-      app_name: devops-project
-      gitops_values_path: environments/{ENV_NAME}/values/microservice-devops-values.yaml
+      app_name: backend-microservice
+      gitops_values_path: environments/{ENV_NAME}/values/backend-microservice-values.yaml
       gitops_repo: ${{ vars.GITOPS_REPO }}
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
