@@ -1,52 +1,97 @@
 # Central-ci-cd
-# CI/CD Reusable GitHub Actions Workflows
 
-This repository contains reusable GitHub Actions workflows for deploying any application across development, staging, and production environments using GitOps principles. These pipelines provide a standardized CI/CD process that can be easily integrated into any project.
+# Central GitHub Actions Reusable Workflow
 
-## Workflow Files
+This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. It contains two main workflows:
 
-- **`dev-staging.yml`**: This file defines the workflow for development and staging environments.
-- **`production.yml`**: This file defines the workflow for the production environment.
+1. **Development and Staging CI/CD Workflow**:
+   - Runs on pull requests to the `main` branch.
+     - **Build the Docker image** for the application.
+     - **Run tests** to validate the application.
+     - **Trivy security scan** for vulnerabilities.
+     - Deploys to **dev** and **staging** environments after manual approval.
 
-## Pipelines Overview
+2. **Production CI/CD Workflow**:
+   - Runs when a Git tag is created for the `main` branch.
+   1. **Build the Docker image** using the Git tag.
+   2. **Deploy to production environment**
 
-### Development and Staging Workflow (`dev-staging.yml`)
-This pipeline is designed to automate the build, testing, security scanning, and deployment to development and staging environments. The steps are:
+## Prerequisites
 
-1. **Build the Docker image** for the application.
-2. **Run tests** to validate the application.
-3. **Trivy security scan** for vulnerabilities.
-4. **Deploy to development environment** (deployment will be defined in your app repository). After a manual review, you can proceed to the next stage.
-5. **Deploy to staging environment** (defined in your app repository). After a manual review, deployment to staging will proceed.
+To use these workflows, ensure you have the following secrets and inputs defined in your repository settings:
 
-### Production Workflow (`production.yml`)
-This pipeline focuses on deploying your application to production based on a Git tag release. The steps are:
+- **Secrets**:
+  - `DOCKERHUB_USERNAME`: DockerHub account username.
+  - `DOCKERHUB_PASSWORD`: DockerHub account password.
+  - `GITOPS_REPO_TOKEN`: Access token for your GitOps repository.
 
-1. **Build the Docker image** using the Git tag.
-2. **Deploy to production environment** (deployment configuration is in your app repository).
+- **Inputs**:
+  - `app_name`: The name of the application being deployed.
+  - `gitops_repo`: The full name of your GitOps repository (e.g., `username/repo-name`).
+  - `gitops_values_path`: Path to the values file in your GitOps repository (e.g., `environments/{ENV_NAME}/values/microservice-devops-values.yaml`).
 
-## Required Inputs
-
-When calling these reusable workflows in your project, you will need to provide the following inputs:
-
-- **App Name**: The name of the application being deployed.
-- **Path to the Values File**: The path to the environment-specific values file in your GitOps repository.
-- **Docker Hub Username and Password**: Credentials for pushing the Docker image to Docker Hub.
-- **GitOps Repo Name**: The name of the GitOps repository where the deployments are managed.
-- **GitOps Repo Token**: A token that grants access to your GitOps repository for updating deployments.
+The `{ENV_NAME}` placeholder in the `gitops_values_path` is a convention used to dynamically insert the actual environment name (e.g., `dev` or `staging`) based on the environment being deployed.
 
 ## How to Use
 
-To use these workflows in your project, simply reference the workflows from this repository in your GitHub Actions YAML file. You’ll need to pass the required inputs for each environment, ensuring your deployments follow the defined GitOps principles.
+### 1. Dev and Staging CI/CD Workflow
+
+To configure the **development** and **staging** deployment pipeline, add the following to your repository’s workflow configuration:
 
 ```yaml
+name: Dev and Staging CI/CD Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  deploy:
-    uses: <repo-name>/.github/workflows/dev-staging.yml@main
+  dev-staging-workflow:
+    uses: yoav7000/Central-ci-cd/.github/workflows/dev-staging-feature-branch-wf.yaml@main
     with:
-      app_name: <your-app-name>
-      values_file: <path-to-your-values-file>
-      docker_username: ${{ secrets.DOCKER_USERNAME }}
-      docker_password: ${{ secrets.DOCKER_PASSWORD }}
-      gitops_repo: <your-gitops-repo>
-      gitops_token: ${{ secrets.GITOPS_TOKEN }}
+      app_name: devops-project
+      gitops_values_path: environments/{ENV_NAME}/values/microservice-devops-values.yaml
+      gitops_repo: ${{ vars.GITOPS_REPO }}
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      GITOPS_REPO_TOKEN: ${{ secrets.GITOPS_REPO_TOKEN }}
+```
+
+This workflow will automatically trigger upon creating a pull request to the `main` branch. After manual approval, it will deploy the app to the **dev** and **staging** environments.
+
+### 2. Production CI/CD Workflow
+
+To configure the **production** deployment pipeline, create a Git tag (e.g., `v1.0.0`). Use the following configuration in your repository:
+
+```yaml
+name: Production CI/CD Workflow
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  prod-workflow:
+    uses: yoav7000/Central-ci-cd/.github/workflows/prod-wf.yaml@main
+    with:
+      app_name: devops-project
+      gitops_values_path: environments/{ENV_NAME}/values/microservice-devops-values.yaml
+      gitops_repo: ${{ vars.GITOPS_REPO }}
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      GITOPS_REPO_TOKEN: ${{ secrets.GITOPS_REPO_TOKEN }}
+```
+
+This workflow will trigger upon tagging the `main` branch with a version tag starting with `v` (e.g., `v1.0.0`). After manual approval, it will deploy the app to **production**.
+
+### Manual Review Setup
+
+While not mandatory, setting up manual review is **highly recommended** to control deployments and ensure they are supervised. To configure manual approval, go to **Settings** -> **Environments** in GitHub, and define required reviews under the "Required reviewers" field for each environment (e.g., `dev`, `staging`, `production`). This allows for an extra layer of control, ensuring deployments are reviewed and authorized by someone before proceeding.
+
+## Conclusion
+
+This repository provides a streamlined CI/CD process for deploying applications across multiple environments, integrating Docker image builds, security scans, and GitOps principles. Make sure to configure your secrets and inputs properly for smooth execution.
