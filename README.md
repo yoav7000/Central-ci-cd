@@ -1,7 +1,7 @@
 
 # Central GitHub Actions Reusable Workflows
 
-This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. The deployments process to **dev**, **staging**, and **production** environments interacts with the defined GitOps repository, updating the image tag in the application values file to the newly created image tag during the deployment. The deployment jobs controlled by using GitHub Action environments, allowing for fine-grained control and approval processes.
+This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. The deployment process interacts with the defined GitOps repository, updating the image tag in the application values file to the newly created image tag during the deployment. Deployment jobs in the Workflow are controlled using GitHub Action environments, allowing for fine-grained control and approval processes.
 
 It contains two main workflows:
 
@@ -28,10 +28,13 @@ To use these workflows, ensure you have the following secrets and inputs defined
 
 - **Inputs**:
   - `app_name`: The name of the application being deployed.
-  - `gitops_repo`: The full name of your GitOps repository (e.g., `username/repo-name`).
+  - `gitops_repo`: The name of your GitOps repository.
   - `gitops_values_path`: Path to the values file in your GitOps repository (e.g., `environments/{ENV_NAME}/values/microservice-devops-values.yaml`).
 
 The `{ENV_NAME}` placeholder in the `gitops_values_path` is a convention used to dynamically insert the actual environment name (e.g., `dev` or `staging`) based on the environment being deployed.
+### Additional Requirements
+   - The application deployment must be controlled in an existing GitOps repository.
+   - The application repository must contain a Dockerfile for building the Docker image.
 
 ## How to Use
 
@@ -95,4 +98,4 @@ While not mandatory, setting up manual review is **highly recommended** to contr
 
 ## Conclusion
 
-This repository provides a streamlined CI/CD process for deploying applications across multiple environments, integrating Docker image builds, security scans, and GitOps principles. Make sure to configure your secrets and inputs properly for smooth execution.
+This repository provides a streamlined CI/CD process for deploying applications across multiple environments, integrating Docker image builds, trivy security scans, and GitOps principles. Make sure to configure your secrets and inputs properly for smooth execution.
