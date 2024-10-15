@@ -1,6 +1,7 @@
 
 # Central GitHub Actions Reusable Workflows
 This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. The deployment process interacts with the defined GitOps repository, updating the image tag in the application values file to the newly created image tag during the deployment. Deployment jobs in the Workflow are controlled using GitHub Action environments, allowing for fine-grained control and approval processes.
+
 ![ci-cd-wf](https://miro.medium.com/v2/resize:fit:1400/1*jJTE__BrpO2H6fmWf5VSDQ.png)
 
 This repo contains two main workflows:
