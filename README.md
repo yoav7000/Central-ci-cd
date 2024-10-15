@@ -1,19 +1,21 @@
-# Central-ci-cd
-# Central GitHub Actions Reusable Workflows
 
-This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. It contains two main workflows:
+# Central GitHub Actions Reusable Workflow
+
+This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. The deployments process to **dev**, **staging**, and **production** environments interacts with the defined GitOps repository, updating the image tag in the application values file to the newly created image tag during the deployment. The deployment jobs controlled by using GitHub Action environments, allowing for fine-grained control and approval processes.
+
+It contains two main workflows:
 
 1. **Development and Staging CI/CD Workflow**:
-    - Runs on pull requests to the `main` branch.
-    1. **Build the Docker image** for the application.
-    2. **Run tests** to validate the application.
-    3. **Trivy security scan** for vulnerabilities.
-    4. Deploys to **dev** and **staging** environments after manual approval.
+   - Runs on pull requests to the `main` branch.
+     - **Build the Docker image** for the application.
+     - **Run tests** to validate the application.
+     - **Trivy security scan** for vulnerabilities.
+     - Deploys to **dev** and **staging** environments (using GitHub Action environments) after manual approval.
 
 2. **Production CI/CD Workflow**:
    - Runs when a Git tag is created for the `main` branch.
-   1. **Build the Docker image** using the Git tag.
-   2. **Deploy to production environment**
+     - **Build the Docker image** using the Git tag.
+     - Deploys to **production** (using GitHub Action environments) after manual approval.
 
 ## Prerequisites
 
@@ -58,7 +60,7 @@ jobs:
       GITOPS_REPO_TOKEN: ${{ secrets.GITOPS_REPO_TOKEN }}
 ```
 
-This workflow will automatically trigger upon creating a pull request to the `main` branch. After manual approval, it will deploy the app to the **dev** and **staging** environments.
+This workflow will automatically trigger upon creating a pull request to the `main` branch. After manual approval through GitHub Action environments, it will deploy the app to the **dev** and **staging** environments.
 
 ### 2. Production CI/CD Workflow
 
@@ -85,7 +87,7 @@ jobs:
       GITOPS_REPO_TOKEN: ${{ secrets.GITOPS_REPO_TOKEN }}
 ```
 
-This workflow will trigger upon tagging the `main` branch with a version tag starting with `v` (e.g., `v1.0.0`). After manual approval, it will deploy the app to **production**.
+This workflow will trigger upon tagging the `main` branch with a version tag starting with `v` (e.g., `v1.0.0`). After manual approval through GitHub Action environments, it will deploy the app to **production**.
 
 ### Manual Review Setup
 
