@@ -12,7 +12,8 @@ This repo contains two main workflows:
      - **Run tests** to validate the application.
      - **Trivy security scan** for vulnerabilities.
      - Deploys to **dev** and **staging** environments (using GitHub Action environments) after manual approval.
-- ![Screenshot 2024-10-16 002037](https://github.com/user-attachments/assets/dabf2510-508a-474c-806e-9676c436caa1)
+   
+ ![Screenshot 2024-10-16 002037](https://github.com/user-attachments/assets/dabf2510-508a-474c-806e-9676c436caa1)
 
 2. **Production CI/CD Workflow**:
    - Runs when a Git tag is created for the `main` branch.
