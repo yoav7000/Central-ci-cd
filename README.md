@@ -31,7 +31,7 @@ To use these workflows, ensure you have the following secrets and inputs defined
 
 - **Inputs**:
   - `app_name`: The name of the application being deployed.
-  - `gitops_repo`: The name of your application GitOps repository.
+  - `gitops_repo`: The name of your GitOps repository where the application deployment is defined.
   - `gitops_values_path`: Path to the values file in your GitOps repository (e.g., `environments/{ENV_NAME}/values/backend-microservice-values.yaml`).
 
 The `{ENV_NAME}` placeholder in the `gitops_values_path` is a convention used to dynamically insert the actual environment name (e.g., `dev` or `staging`) based on the environment being deployed.
