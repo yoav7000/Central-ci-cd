@@ -1,6 +1,6 @@
 
 # Central GitHub Actions Reusable Workflows
-This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. The deployment process interacts with the defined GitOps repository, updating the image tag in the application values file to the newly created image tag during the deployment. Deployment jobs in the Workflow are controlled using GitHub Action environments, allowing for fine-grained control and approval processes.
+This repository provides reusable workflows for deploying applications that follow GitOps principles to multiple environments: **development**, **staging**, and **production**. The deployment process interacts with the application defined GitOps repository, updating the image tag in the application values file to the newly created image tag during the deployment. Deployment jobs in the Workflow are controlled using GitHub Action environments, allowing for fine-grained control and approval processes.
 
 ![ci-cd-wf](https://miro.medium.com/v2/resize:fit:1400/1*jJTE__BrpO2H6fmWf5VSDQ.png)
 
@@ -31,7 +31,7 @@ To use these workflows, ensure you have the following secrets and inputs defined
 
 - **Inputs**:
   - `app_name`: The name of the application being deployed.
-  - `gitops_repo`: The name of your GitOps repository.
+  - `gitops_repo`: The name of your application GitOps repository.
   - `gitops_values_path`: Path to the values file in your GitOps repository (e.g., `environments/{ENV_NAME}/values/backend-microservice-values.yaml`).
 
 The `{ENV_NAME}` placeholder in the `gitops_values_path` is a convention used to dynamically insert the actual environment name (e.g., `dev` or `staging`) based on the environment being deployed.
